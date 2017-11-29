@@ -1,0 +1,17 @@
+{
+  "name": "vue2-layer-mobile",
+  "version": "1.0.1",
+  "description": "vue2.0移动端弹层",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vue2.0",
+    "layer",
+    "layer-mobile",
+    "vue-layer-mobile"
+  ],
+  "author": "qiheng",
+  "license": "MIT"
+}

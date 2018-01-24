@@ -1,15 +1,24 @@
 <template>
-    <div :id="'layui-m-layer' + uuid" class="layui-m-layer" :class="'layui-m-layer'+ type" :index="uuid">
+    <div :id="'layui-m-layer' + uuid" class="layui-m-layer" :class="'layui-m-layer'+ type" :index="uuid" v-show="visible">
         <div @click="shadeCloseFn" v-show="shade" class="layui-m-layershade"></div>
         <div class="layui-m-layermain" :style="!fixed ? 'position:static;' : ''">
             <div class="layui-m-layersection">
                 <div class="layui-m-layerchild" :class="layerClass" :style="styles">
                     <h3 v-if="aTitle" :style="aTitle[1]">{{ aTitle[0] }}</h3>
-                    <div v-if="type != 2" class="layui-m-layercont" v-html="content"></div>
-                    <div v-else class="layui-m-layercont">
-                        <i></i><i class="layui-m-layerload"></i><i></i>
-                        <div v-html="content"></div>
-                    </div>
+                    <template v-if="!!content">
+                        <div v-if="type != 2" class="layui-m-layercont" v-html="content"></div>
+                        <div v-else class="layui-m-layercont">
+                            <i></i><i class="layui-m-layerload"></i><i></i>
+                            <div v-html="content"></div>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <div v-if="type != 2" class="layui-m-layercont"><slot></slot></div>
+                        <div v-else class="layui-m-layercont">
+                            <i></i><i class="layui-m-layerload"></i><i></i>
+                            <div><slot></slot></div>
+                        </div>
+                    </template>
                     <div v-if="btns" class="layui-m-layerbtn">
                         <span @click.stop="handleClick($event)" v-if="btns[1]" no data-type="0">{{ btns[1] }}</span>
                         <span @click.stop="handleClick($event)" yes data-type="1">{{ btns[0] }}</span>
@@ -22,11 +31,16 @@
 
 <script>
     export default {
-        name: 'layer',
+        name: 'Layer',
         props: {
             uuid: {
                 type: Number,
-                default: 0
+                default: +((Math.random().toString()).substr(-6))
+            },
+            value: {
+                type: Boolean,
+                default: false
+//                default: true
             },
             title: {
                 type: null,
@@ -86,14 +100,25 @@
         },
         data() {
             return {
-
+                visible: false
             }
         },
         created() {
-            const that = this
+            this.timeId = null
 
+            if (this.value) {
+                this.visible = true
+            }
+        },
+        destroyed() {
+            if (this.timeId) {
+                clearTimeout(this.timeId)
+            }
         },
         computed: {
+//            visible() {
+//                return this.value
+//            },
             layerClass() {
                 const that = this;
                 const classList = [];
@@ -147,7 +172,7 @@
                 const that = this
 
                 if (that.shade && that.shadeClose) {
-                    this.$emit('shade-close')
+                    this.$emit('close')
                 }
             },
             // 按钮事件处理
@@ -156,13 +181,38 @@
                 let eventName
 
                 if (btnTyps === 1) {
-                    eventName = 'on-yes'
+                    eventName = 'sure'
                 } else {
-                    eventName = 'on-no'
+                    eventName = 'cancel'
                 }
-                console.log('$emit:', btnTyps, '---',eventName)
+
                 this.$emit(eventName)
             }
+        },
+        watch: {
+            visible(val) {
+                const that = this
+                console.log('更新了', val)
+
+                if (val && that.time >= 0) {
+                    clearTimeout(that.timeId)
+
+                    that.$emit('input', true)
+                    that.$emit('show')
+
+                    that.timeId = setTimeout(() => {
+
+                        that.$emit('input', false)
+                        that.$emit('close')
+
+                    }, that.time * 1000)
+                }
+
+            },
+            value(val) {
+                this.visible = val
+            }
+
         }
     }
 </script>

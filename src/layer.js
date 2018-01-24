@@ -37,12 +37,12 @@ const plugin = {
         const doc = document
         const LayerCom = Vue.extend(LayerComponent)
         const layer = {
-            version: '0.0.1',
+            version: '1.0.3',
             __init(options = {}) {
                 const that = this
                 options.uuid = uuid
 
-                const $layer = new LayerCom({
+                const $layer = that.$layer =  new LayerCom({
                     el: doc.createElement('div')
                 });
 
@@ -61,6 +61,7 @@ const plugin = {
 
                 $layer.$nextTick(() => {
                     document.body.appendChild($layer.$el)
+                    $layer.visible = true
                     options.success && options.success($layer.$el)
                 })
 
@@ -70,30 +71,38 @@ const plugin = {
             __action(options, $layer) {
                 const that = this
 
-                if (options.time) {
+                /*if (options.time) {
                     ready.timer[$layer.uuid] = setTimeout(() => {
                         that.close($layer.uuid)
                     }, options.time * 1000)
-                }
+                }*/
 
                 // 移除组件事件监听
-                $layer.$off('shade-close')
-                $layer.$off('on-yes')
-                $layer.$off('on-no')
+                /*$layer.$off('close')
+                $layer.$off('sure')
+                $layer.$off('cancel')*/
 
                 // 添加组件事件监听
-                $layer.$on('on-yes', () => {
+                $layer.$on('input', (val) => {
+                    $layer.visible = val
+                })
+
+                $layer.$on('sure', () => {
                     if (options.yes && options.yes($layer.uuid, $layer) === false) return
+                        console.log('重复')
                     that.close($layer.uuid)
                 })
 
-                $layer.$on('on-no', () => {
+                $layer.$on('cancel', () => {
                     if (options.no && options.no($layer.uuid, $layer) === false) return
                     that.close($layer.uuid)
                 })
 
-                $layer.$on('shade-close', () => {
-                    that.close($layer.uuid)
+                $layer.$on('close', () => {
+                    console.log('close eent')
+                    setTimeout(() => {
+                        that.close($layer.uuid)
+                    }, 20)
                 })
 
                 options.end && (ready.end[$layer.uuid] = options.end)
@@ -107,15 +116,14 @@ const plugin = {
             // 关闭层
             close(index) {
                 const layerEl = ready.layerPool[index];
-                // console.log(index,'--------关闭前---------',ready.layerPool)
                 if (layerEl && layerEl.parentNode) {
-                    layerEl.parentNode.removeChild(layerEl);
+                    layerEl.parentNode.removeChild(layerEl)
+                    this.$layer.$destroy()
                     delete ready.layerPool[index]
                     clearTimeout(ready.timer[index])
                     delete ready.timer[index]
                     typeof ready.end[index] === 'function' && ready.end[index]()
                     delete ready.end[index]
-                    //window.ready = ready
                 }
             },
             // 关闭所有层
@@ -180,7 +188,10 @@ const plugin = {
         Vue.mixin({
             created() {
                 this.$layer = Vue.layer;
-            }
+            },
+			components: {
+				[LayerComponent.name]: LayerComponent
+			}
         })
     }
 };

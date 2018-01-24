@@ -209,27 +209,27 @@ layer.closeAll()
 
 <div style="width:50%;display:inline-block;">
     <p>利用 slot 自定义弹层</p>
-    <img width="100%" src="./demo/custom-content-layer.png" />
+    <img width="365" src="./demo/custom-content-layer.png" />
 </div>
 
 <div style="width:50%;display:inline-block;">
     <p>信息弹层</p>
-    <img width="100%" src="./demo/alert.png" />
+    <img width="365" src="./demo/alert.png" />
 </div>
 
 <div style="width:50%;display:inline-block;">
 <p>提示</p>
-    <img width="100%" src="./demo/msg.png" />
+    <img width="365" src="./demo/msg.png" />
 </div>
 
 <div style="width:50%;display:inline-block;">
     <p>底部提示弹层</p>
-    <img width="100%" src="./demo/footer.png" />
+    <img width="365" src="./demo/footer.png" />
 </div>
 
 <div style="width:50%;display:inline-block;">
     <p>询问弹层</p>
-    <img width="100%" src="./demo/confirm.png" />
+    <img width="365" src="./demo/confirm.png" />
 </div>
 
 

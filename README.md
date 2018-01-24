@@ -198,6 +198,7 @@ layer.closeAll()
 1.参数(options)
 
 ~~style~~改成`styles`
+
 ~~shade~~不支持自定义透明度与背景色
 
 *特别注意，这个styles属性跟 layer-mobile 有点区别多加了个s，因为style在vue中是保留关键词*

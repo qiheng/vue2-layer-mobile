@@ -22,11 +22,11 @@ Vue.use(layer)
 
 ```javascript
 // 普通使用
-<layer @sure="yesFn" :btn="['确定使用', '放弃']" :content="'欢迎使用vue2-layer-mobile'"></layer>
+<layer v-model="showLayer" @sure="yesFn" :btn="['确定使用', '放弃']" :content="'欢迎使用vue2-layer-mobile'"></layer>
 
 // 利用 slot，自定义风格各异的弹层
 // 扩展支持 slot 是为了解决以 plugin 形式时，通过 content 属性传入生成的内容不支持 vue 特性的问题
-<layer @sure="yesFn" :btn="['确定使用', '放弃']" :content="'欢迎使用vue2-layer-mobile'">
+<layer v-model="showLayer" @sure="yesFn" :btn="['确定使用', '放弃']" :content="'欢迎使用vue2-layer-mobile'">
    <div class="input-pwd-layer">
         <h2 class="f16 gray">请输入支付密码</h2>
         <div class="int-pwd-outer">
@@ -34,6 +34,15 @@ Vue.use(layer)
         </div>
     </div>
 </layer>
+
+
+export default {
+    data() {
+        return {
+            showLayer: true
+        }
+    }
+}
 
 ```
 
@@ -198,21 +207,30 @@ layer.closeAll()
 
 ## 效果图
 
-<p>利用 slot 自定义弹层</p>
-    <img width="365" src="./demo/custom-content-layer.png" />
+<div style="width:50%;display:inline-block;">
+    <p>利用 slot 自定义弹层</p>
+    <img width="100%" src="./demo/custom-content-layer.png" />
+</div>
 
-<p>信息弹层</p>
-    <img width="365" src="./demo/alert.png" />
+<div style="width:50%;display:inline-block;">
+    <p>信息弹层</p>
+    <img width="100%" src="./demo/alert.png" />
+</div>
 
+<div style="width:50%;display:inline-block;">
 <p>提示</p>
-    <img width="365" src="./demo/msg.png" />
+    <img width="100%" src="./demo/msg.png" />
+</div>
 
-<p>底部提示弹层</p>
-    <img width="365" src="./demo/footer.png" />
+<div style="width:50%;display:inline-block;">
+    <p>底部提示弹层</p>
+    <img width="100%" src="./demo/footer.png" />
+</div>
 
-<p>询问弹层</p>
-    <img width="365" src="./demo/confirm.png" />
-
+<div style="width:50%;display:inline-block;">
+    <p>询问弹层</p>
+    <img width="100%" src="./demo/confirm.png" />
+</div>
 
 
 

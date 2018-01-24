@@ -198,19 +198,19 @@ layer.closeAll()
 
 ## 效果图
 
-利用 slot 自定义弹层
+<p>利用 slot 自定义弹层</p>
     <img width="365" src="./demo/custom-content-layer.png" />
 
-信息弹层
-    <img width="365" src="./demo/alertr.png" />
+<p>信息弹层</p>
+    <img width="365" src="./demo/alert.png" />
 
-提示
+<p>提示</p>
     <img width="365" src="./demo/msg.png" />
 
-底部提示弹层
+<p>底部提示弹层</p>
     <img width="365" src="./demo/footer.png" />
 
-询问弹层
+<p>询问弹层</p>
     <img width="365" src="./demo/confirm.png" />
 
 
